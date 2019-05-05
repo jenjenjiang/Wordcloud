@@ -1,0 +1,42 @@
+from os import path
+import jieba
+import jieba.analyse as ja
+pip install jieba
+from gensim.test.utils import common_texts, get_tmpfile
+
+with open('../lyric.txt', 'r') as handle:
+    print(handle)
+    for line in handle:
+        tags = ja.extract_tags(line, topK=10, withWeight=True)
+        for tag, weight in tags:
+            print(tag + "," + str(int(weight * 10000)))
+        #tag and weight
+
+import codecs
+wtags = codecs.open("../JJ/lyrics_tags.txt", "w")  #open lyrics_tags 
+with open('../JJ/lyric.txt', 'r') as handle:
+    print(handle)
+    for line in handle:
+        words = ja.extract_tags(line,10)
+        wtags.write(" ".join(words))
+handle.close()
+
+
+with open("C:/Users/wedod/Desktop/JJ/lyrics_tags.txt", "rb") as handle2:
+    for line in handle2:
+        tags = ja.extract_tags(line,10)
+        print(",".join(tags))
+handle2.close()
+#top 10 tags
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
+text = open("../JJ/lyrics_tags.txt").read()
+wc = WordCloud(
+               background_color="white", #color
+               max_words = 2000 ).generate(text)      #maximum words
+plt.imshow(wc)
+
+#worcloud config https://blog.csdn.net/u010309756/article/details/67637930
